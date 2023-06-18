@@ -16,6 +16,9 @@ class MyApp extends StatelessWidget {
       return GetMaterialApp(
         debugShowCheckedModeBanner: false,
         title: 'Flutter Demo',
+        theme: ThemeData(
+          textTheme: GoogleFonts.josefinSansTextTheme()
+        ),
         home:  HomeScreen(),
       ); },
     );
