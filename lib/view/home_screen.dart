@@ -9,74 +9,139 @@ class HomeScreen extends StatelessWidget {
 //  double _value = 0.6;
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: kWhite,
-      appBar: AppBar(
-        backgroundColor: Colors.transparent,
-        elevation: 0.0,
-        title: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Icon(
-              Icons.filter_list,
-              color: kBlack,
-            ),
-            Row(
+    return Stack(
+      children: [
+        Scaffold(
+          backgroundColor: kWhite,
+          appBar: AppBar(
+            backgroundColor: Colors.transparent,
+            elevation: 0.0,
+            title: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Icon(
-                  Icons.search_sharp,
+                  Icons.filter_list,
                   color: kBlack,
                 ),
-                0.046.sw.horizontalSpace,
-                CircleAvatar(
-                  radius: 15.r,
-                  backgroundColor: kprimary,
+                Row(
+                  children: [
+                    Icon(
+                      Icons.search_sharp,
+                      color: kBlack,
+                    ),
+                    0.046.sw.horizontalSpace,
+                    CircleAvatar(
+                      radius: 15.r,
+                      backgroundColor: kprimary,
+                    )
+                  ],
                 )
               ],
-            )
-          ],
-        ),
-      ),
-      body: ListView(
-        padding: EdgeInsets.symmetric(horizontal: 0.055.sw),
-        children: [
-          0.032.sh.verticalSpace,
-          Text("Whats'up Furqan",
-              style: TextStyle(
-                  color: kBlack, fontSize: 35.sp, fontWeight: FontWeight.bold)),
-          0.021.sh.verticalSpace,
-          Text("Categories".capitalize!,
-              style: TextStyle(
-                  color: kGrey, fontSize: 15.sp, fontWeight: FontWeight.w600)),
-          0.021.sh.verticalSpace,
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            ),
+          ),
+          body: ListView(
+            padding: EdgeInsets.symmetric(horizontal: 0.055.sw),
             children: [
-              countBox(),
-              countBox(
-                task: "20",
-                category: "Personal",
-                valueColors: kprimary,
+              0.032.sh.verticalSpace,
+              Text("Whats'up Furqan",
+                  style: TextStyle(
+                      color: kBlack,
+                      fontSize: 35.sp,
+                      fontWeight: FontWeight.bold)),
+              0.021.sh.verticalSpace,
+              Text("Categories".capitalize!,
+                  style: TextStyle(
+                      color: kGrey,
+                      fontSize: 15.sp,
+                      fontWeight: FontWeight.w600)),
+              0.021.sh.verticalSpace,
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  countBox(),
+                  countBox(
+                    task: "20",
+                    category: "Personal",
+                    valueColors: kprimary,
+                  ),
+                ],
               ),
+              0.032.sh.verticalSpace,
+              Text("Today's Tasks",
+                  style: TextStyle(
+                      color: kGrey,
+                      fontSize: 15.sp,
+                      fontWeight: FontWeight.w600)),
+              0.021.sh.verticalSpace,
+              ...List.generate(task.todaysTask.length,
+                  (index) => TaskTile(task.todaysTask[index].toString()))
             ],
           ),
-          0.032.sh.verticalSpace,
-          Text("Today's Tasks",
-              style: TextStyle(
-                  color: kGrey, fontSize: 15.sp, fontWeight: FontWeight.w600)),
-          0.021.sh.verticalSpace,
-          ...List.generate(task.todaysTask.length,
-              (index) => TaskTile(task.todaysTask[index].toString()))
-        ],
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {},
-        backgroundColor: kprimary,
-        child: Icon(
-          Icons.add,
-          size: 30.sp,
+          floatingActionButton: FloatingActionButton(
+            onPressed: () {},
+            backgroundColor: kprimary,
+            child: Icon(
+              Icons.add,
+              size: 30.sp,
+            ),
+          ),
         ),
-      ),
+        Scaffold(
+          backgroundColor: Color(0xff0f1e4f),
+          body: Padding(
+            padding: EdgeInsets.only(left: 0.15.sw),
+            child: Column(
+              children: [
+                0.15.sh.verticalSpace,
+                Container(
+                  // color: Colors.white,
+                  height: 0.2.sh,
+                  width: 0.5.sw,
+                  child: Stack(
+                    children: [
+                      Positioned(
+                        top: 10,
+                        child: Container(
+                          padding: EdgeInsets.all(5),
+                          decoration: BoxDecoration(
+                              shape: BoxShape.circle,
+                              border: Border.all(
+                                  width: 3, color: Color(0xff7809a7))),
+                          child: CircleAvatar(
+                            radius: 50,
+                            backgroundColor: Colors.white,
+                          ),
+                        ),
+                      ),
+                      Positioned(
+                        right: 0,
+                        top: 0,
+                        child: Container(
+                          padding: EdgeInsets.only(left: 0.018.sw),
+                          height: 0.053.sh,
+                          width: 0.096.sw,
+                          decoration: BoxDecoration(
+                              shape: BoxShape.circle,
+                              border: Border.all(
+                                  width: 1, color: Color(0xff2c396d))),
+                          child: Icon(
+                            Icons.arrow_back_ios,
+                            size: 20,
+                            color: Colors.white,
+                          ),
+                        ),
+                      )
+                    ],
+                  ),
+                )
+                
+       
+       
+              ],
+            ),
+          ),
+        ),
+      ],
     );
   }
 }
