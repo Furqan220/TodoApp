@@ -24,89 +24,96 @@ class HomeScreen extends StatelessWidget {
         },
         child: Stack(
           children: [
-            Scaffold(
-              backgroundColor: Color(0xff0f1e4f),
-              body: Padding(
-                padding: EdgeInsets.only(left: 0.15.sw),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    0.15.sh.verticalSpace,
-                    Container(
-                      // color: Colors.white,
-                      height: 0.17.sh,
-                      width: 0.5.sw,
-                      child: Stack(
-                        children: [
-                          Positioned(
-                            top: 10,
-                            child: CircularPercentIndicator(
-                              radius: 52,
-                              progressColor: Color(0xff7809a7),
-                              lineWidth: 3,
-                              percent: 0.7,
-                              circularStrokeCap: CircularStrokeCap.round,
+            Container(
+              decoration: BoxDecoration(
+                  gradient: LinearGradient(
+                      begin: Alignment.topLeft,
+                      end: Alignment.bottomRight,
+                      colors: [Color(0xff0f1e4f), kprimary, kValue1])),
+              child: Scaffold(
+                backgroundColor: Colors.transparent,
+                body: Padding(
+                  padding: EdgeInsets.only(left: 0.15.sw),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      0.15.sh.verticalSpace,
+                      Container(
+                        // color: Colors.white,
+                        height: 0.17.sh,
+                        width: 0.5.sw,
+                        child: Stack(
+                          children: [
+                            Positioned(
+                              top: 10,
+                              child: CircularPercentIndicator(
+                                radius: 52,
+                                progressColor: Color(0xff7809a7),
+                                lineWidth: 3,
+                                percent: 0.7,
+                                circularStrokeCap: CircularStrokeCap.round,
 
-                              // padding: EdgeInsets.all(5),
-                              // decoration: BoxDecoration(
-                              //     shape: BoxShape.circle,
-                              //     border: Border.all(
-                              //         width: 3, color: Color(0xff7809a7))),
-                              center: Container(
-                                margin: EdgeInsets.all(8),
                                 // padding: EdgeInsets.all(5),
-                                child: CircleAvatar(
-                                  radius: 50,
-                                  backgroundColor: Colors.white,
-                                  backgroundImage:
-                                      AssetImage('assets/Ellipse 3.png'),
+                                // decoration: BoxDecoration(
+                                //     shape: BoxShape.circle,
+                                //     border: Border.all(
+                                //         width: 3, color: Color(0xff7809a7))),
+                                center: Container(
+                                  margin: EdgeInsets.all(8),
+                                  // padding: EdgeInsets.all(5),
+                                  child: CircleAvatar(
+                                    radius: 50,
+                                    backgroundColor: Colors.white,
+                                    backgroundImage:
+                                        AssetImage('assets/Ellipse 3.png'),
+                                  ),
                                 ),
                               ),
                             ),
-                          ),
-                          Positioned(
-                            right: 0,
-                            top: 0,
-                            child: InkWell(
-                              onTap: () {
-                                value.value == 0.0
-                                    ? value.value = 1
-                                    : value.value = 0.0;
-                              },
-                              child: Container(
-                                padding: EdgeInsets.only(left: 0.018.sw),
-                                height: 0.053.sh,
-                                width: 0.096.sw,
-                                decoration: BoxDecoration(
-                                    shape: BoxShape.circle,
-                                    border: Border.all(
-                                        width: 1, color: Color(0xff2c396d))),
-                                child: Icon(
-                                  Icons.arrow_back_ios,
-                                  size: 20,
-                                  color: Colors.white,
+                            Positioned(
+                              right: 0,
+                              top: 0,
+                              child: InkWell(
+                                onTap: () {
+                                  value.value == 0.0
+                                      ? value.value = 1
+                                      : value.value = 0.0;
+                                },
+                                child: Container(
+                                  padding: EdgeInsets.only(left: 0.018.sw),
+                                  height: 0.053.sh,
+                                  width: 0.096.sw,
+                                  decoration: BoxDecoration(
+                                      shape: BoxShape.circle,
+                                      border: Border.all(
+                                          width: 1, color: Color(0xff2c396d))),
+                                  child: Icon(
+                                    Icons.arrow_back_ios,
+                                    size: 20,
+                                    color: Colors.white,
+                                  ),
                                 ),
                               ),
-                            ),
-                          )
-                        ],
+                            )
+                          ],
+                        ),
                       ),
-                    ),
-                    // 0.016.sh.verticalSpace,
-                    Text("Furqan\nAhmed",
-                        style: TextStyle(
-                            color: kWhite,
-                            fontSize: 45.sp,
-                            height: 1.5,
-                            fontWeight: FontWeight.bold)),
-                    0.064.sh.verticalSpace,
-                    MenuButton("All Tasks", "assets/pvc_icon.png"),
-                    0.055.sh.verticalSpace,
-                    MenuButton("Edit Proile", "assets/edit_icon.png"),
-                    0.055.sh.verticalSpace,
-                    MenuButton("Rate Us", "assets/pngwing.com.png"),
-                    0.032.sh.verticalSpace,
-                  ],
+                      // 0.016.sh.verticalSpace,
+                      Text("Furqan\nAhmed",
+                          style: TextStyle(
+                              color: kWhite,
+                              fontSize: 45.sp,
+                              height: 1.5,
+                              fontWeight: FontWeight.bold)),
+                      0.064.sh.verticalSpace,
+                      MenuButton("All Tasks", "assets/pvc_icon.png"),
+                      0.055.sh.verticalSpace,
+                      MenuButton("Edit Proile", "assets/edit_icon.png"),
+                      0.055.sh.verticalSpace,
+                      MenuButton("Rate Us", "assets/pngwing.com.png"),
+                      0.032.sh.verticalSpace,
+                    ],
+                  ),
                 ),
               ),
             ),
