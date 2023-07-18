@@ -1,5 +1,14 @@
 export 'package:todo_app/utils/colors.dart';
 export 'package:todo_app/controllers/tasks_controller.dart';
+
+// widgets
+export 'package:todo_app/widgets/text_fields.dart';
+export 'package:todo_app/widgets/button.dart';
+
+// Screens
+export 'package:todo_app/view/auth/splash_screen.dart';
+export 'package:todo_app/view/auth/login_screen.dart';
+export 'package:todo_app/view/auth/sign_up.dart';
 export 'package:todo_app/view/home_screen.dart';
 
 // Packages

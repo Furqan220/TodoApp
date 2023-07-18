@@ -116,6 +116,7 @@ class HomeScreen extends StatelessWidget {
                   ),
                 ),
               ),
+       
             ),
             TweenAnimationBuilder(
                 curve: Curves.easeInBack,

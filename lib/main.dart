@@ -1,7 +1,10 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:todo_app/export_all.dart';
 
-void main() {
-  runApp( MyApp());
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
+  runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {
@@ -12,15 +15,14 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return ScreenUtilInit(
       designSize: Size(430, 932),
-      builder: (BuildContext context, Widget? child) { 
-      return GetMaterialApp(
-        debugShowCheckedModeBanner: false,
-        title: 'Flutter Demo',
-        theme: ThemeData(
-          textTheme: GoogleFonts.josefinSansTextTheme()
-        ),
-        home:  HomeScreen(),
-      ); },
+      builder: (BuildContext context, Widget? child) {
+        return GetMaterialApp(
+          debugShowCheckedModeBanner: false,
+          title: 'Flutter Demo',
+          theme: ThemeData(textTheme: GoogleFonts.josefinSansTextTheme()),
+          home: SplashScreen(),
+        );
+      },
     );
   }
 }
