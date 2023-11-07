@@ -1,7 +1,6 @@
-import 'dart:ffi';
 import 'dart:math';
 
-import 'package:todo_app/export_all.dart';
+import 'package:todo_app/res/export_all.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 
 class HomeScreen extends StatelessWidget {
@@ -29,7 +28,11 @@ class HomeScreen extends StatelessWidget {
                   gradient: LinearGradient(
                       begin: Alignment.topLeft,
                       end: Alignment.bottomRight,
-                      colors: [Color(0xff0f1e4f), kprimary, kValue1])),
+                      colors: [
+                    Color(0xff0f1e4f),
+                    AppColors.kprimary,
+                    AppColors.kValue1
+                  ])),
               child: Scaffold(
                 backgroundColor: Colors.transparent,
                 body: Padding(
@@ -101,7 +104,7 @@ class HomeScreen extends StatelessWidget {
                       // 0.016.sh.verticalSpace,
                       Text("Furqan\nAhmed",
                           style: TextStyle(
-                              color: kWhite,
+                              color: AppColors.kWhite,
                               fontSize: 45.sp,
                               height: 1.5,
                               fontWeight: FontWeight.bold)),
@@ -116,7 +119,6 @@ class HomeScreen extends StatelessWidget {
                   ),
                 ),
               ),
-       
             ),
             TweenAnimationBuilder(
                 curve: Curves.easeInBack,
@@ -130,7 +132,7 @@ class HomeScreen extends StatelessWidget {
                       ..setEntry(0, 3, 280 * val)
                       ..rotateY((pi / 6) * val),
                     child: Scaffold(
-                      backgroundColor: kWhite,
+                      backgroundColor: AppColors.kWhite,
                       appBar: AppBar(
                         backgroundColor: Colors.transparent,
                         elevation: 0.0,
@@ -145,19 +147,19 @@ class HomeScreen extends StatelessWidget {
                               },
                               child: Icon(
                                 Icons.filter_list,
-                                color: kBlack,
+                                color: AppColors.kBlack,
                               ),
                             ),
                             Row(
                               children: [
                                 Icon(
                                   Icons.search_sharp,
-                                  color: kBlack,
+                                  color: AppColors.kBlack,
                                 ),
                                 0.046.sw.horizontalSpace,
                                 CircleAvatar(
                                   radius: 20.r,
-                                  backgroundColor: kprimary,
+                                  backgroundColor: AppColors.kprimary,
                                   backgroundImage:
                                       AssetImage('assets/Ellipse 3.png'),
                                 )
@@ -172,13 +174,13 @@ class HomeScreen extends StatelessWidget {
                           0.032.sh.verticalSpace,
                           Text("Whats'up Furqan",
                               style: TextStyle(
-                                  color: kBlack,
+                                  color: AppColors.kBlack,
                                   fontSize: 35.sp,
                                   fontWeight: FontWeight.bold)),
                           0.021.sh.verticalSpace,
                           Text("Categories".capitalize!,
                               style: TextStyle(
-                                  color: kGrey,
+                                  color: AppColors.kGrey,
                                   fontSize: 15.sp,
                                   fontWeight: FontWeight.w600)),
                           0.021.sh.verticalSpace,
@@ -191,7 +193,7 @@ class HomeScreen extends StatelessWidget {
                                 countBox(
                                   task: "20",
                                   category: "Personal",
-                                  valueColors: kprimary,
+                                  valueColors: AppColors.kprimary,
                                 ),
                               ],
                             ),
@@ -199,7 +201,7 @@ class HomeScreen extends StatelessWidget {
                           0.032.sh.verticalSpace,
                           Text("Today's Tasks",
                               style: TextStyle(
-                                  color: kGrey,
+                                  color: AppColors.kGrey,
                                   fontSize: 15.sp,
                                   fontWeight: FontWeight.w600)),
                           0.021.sh.verticalSpace,
@@ -211,7 +213,7 @@ class HomeScreen extends StatelessWidget {
                       ),
                       floatingActionButton: FloatingActionButton(
                         onPressed: () {},
-                        backgroundColor: kprimary,
+                        backgroundColor: AppColors.kprimary,
                         child: Icon(
                           Icons.add,
                           size: 30.sp,
@@ -229,7 +231,7 @@ class HomeScreen extends StatelessWidget {
   Widget searchField() {
     return Container(
       decoration: BoxDecoration(
-          color: kWhite,
+          color: AppColors.kWhite,
           borderRadius: BorderRadius.circular(20.r),
           boxShadow: [
             BoxShadow(color: Colors.grey, blurRadius: 15, offset: Offset(0, 5))
@@ -240,7 +242,7 @@ class HomeScreen extends StatelessWidget {
           hintText: 'Search tasks ...',
           hintStyle: TextStyle(
             fontSize: 13.sp,
-            color: kGrey,
+            color: AppColors.kGrey,
           ),
           border: InputBorder.none,
           focusedBorder: InputBorder.none,
@@ -254,14 +256,14 @@ class HomeScreen extends StatelessWidget {
   Widget countBox(
       {String task = '40',
       category = "Business",
-      Color valueColors = kValue1}) {
+      Color valueColors = AppColors.kValue1}) {
     return Container(
       // width: 0.40.sw,
       // height: 0.40.sw,
       // padding: EdgeInsets.symmetric(horizontal: 0.046.sw, vertical: 0.016.sh),
       // decoration: BoxDecoration(
       //     shape: BoxShape.circle,
-      //     color: kWhite,
+      //     color: AppColors.kWhite,
       //     // borderRadius: BorderRadius.circular(20.r),
       //     boxShadow: [
       //       BoxShadow(
@@ -301,18 +303,18 @@ class HomeScreen extends StatelessWidget {
           Text(
             "$task tasks",
             style: TextStyle(
-                fontSize: 16.sp, color: kGrey, fontWeight: FontWeight.w500),
+                fontSize: 16.sp, color: AppColors.kGrey, fontWeight: FontWeight.w500),
           ),
           0.021.sh.verticalSpace,
           Text(
             "$category",
             style: TextStyle(
-                fontSize: 20.sp, color: kBlack, fontWeight: FontWeight.bold),
+                fontSize: 20.sp, color: AppColors.kBlack, fontWeight: FontWeight.bold),
           ),
           // 0.032.sh.verticalSpace,
           // LinearProgressIndicator(
           //   value: 0.7,
-          //   backgroundColor: kGrey,
+          //   backgroundColor: AppColors.kGrey,
           //   color: valueColors,
           // ),
           // 0.021.sh.verticalSpace,
@@ -338,12 +340,12 @@ class HomeScreen extends StatelessWidget {
     //           width: 25.w,
     //           decoration: BoxDecoration(
     //               shape: BoxShape.circle,
-    //               border: Border.all(color: kprimary, width: 2)),
+    //               border: Border.all(color: AppColors.kprimary, width: 2)),
     //         ),
     //         0.046.sw.horizontalSpace,
     //         Text(TaskName,
     //             style: TextStyle(
-    //                 color: kBlack,
+    //                 color: AppColors.kBlack,
     //                 fontSize: 22.sp,
     //                 fontWeight: FontWeight.w500)),
     //       ],
@@ -357,7 +359,7 @@ class HomeScreen extends StatelessWidget {
           onPressed: () {},
           icon: Icon(
             Icons.edit,
-            color: kprimary,
+            color: AppColors.kprimary,
             size: 30.sp,
           ),
         ),
@@ -387,14 +389,16 @@ class HomeScreen extends StatelessWidget {
                   height: 25.h,
                   width: 25.w,
                   decoration: BoxDecoration(
-                      color: selected.value ? kprimary : kWhite,
+                      color: selected.value
+                          ? AppColors.kprimary
+                          : AppColors.kWhite,
                       shape: BoxShape.circle,
-                      border: Border.all(color: kprimary, width: 2)),
+                      border: Border.all(color: AppColors.kprimary, width: 2)),
                   child: selected.value
                       ? Icon(
                           Icons.check,
                           size: 15,
-                          color: kWhite,
+                          color: AppColors.kWhite,
                         )
                       : null,
                 ),
@@ -402,7 +406,7 @@ class HomeScreen extends StatelessWidget {
               0.046.sw.horizontalSpace,
               Text(TaskName,
                   style: TextStyle(
-                      color: kBlack,
+                      color: AppColors.kBlack,
                       fontSize: 22.sp,
                       fontWeight: FontWeight.w500)),
             ],
@@ -426,12 +430,14 @@ class HomeScreen extends StatelessWidget {
             // scale: 4,
             height: 0.025.sh,
             width: 0.046.sw,
-            color: kWhite,
+            color: AppColors.kWhite,
           ),
           0.02.sw.horizontalSpace,
           Text("$optionName",
               style: TextStyle(
-                  color: kWhite, fontSize: 18.sp, fontWeight: FontWeight.w500)),
+                  color: AppColors.kWhite,
+                  fontSize: 18.sp,
+                  fontWeight: FontWeight.w500)),
         ],
       ),
     );

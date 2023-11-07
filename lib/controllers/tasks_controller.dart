@@ -1,4 +1,4 @@
-import 'package:todo_app/export_all.dart';
+import 'package:todo_app/res/export_all.dart';
 
 class TasksController extends GetxController {
   RxList todaysTask = [

@@ -1,4 +1,4 @@
-import 'package:todo_app/export_all.dart';
+import 'package:todo_app/res/export_all.dart';
 
 class CustomTextField extends StatefulWidget {
   final String? hintText;
@@ -8,16 +8,21 @@ class CustomTextField extends StatefulWidget {
   final String? labelText;
   final TextEditingController? controller;
   final String? Function(String?)? validator;
+  final FocusNode? focus;
+  final FocusNode? nextFocus;
 
-  const CustomTextField(
-      {super.key,
-      this.hintText,
-      this.controller,
-      this.prefixIcon,
-      this.keyboardType,
-      this.labelText,
-      this.suffixIcon,
-      this.validator});
+  const CustomTextField({
+    super.key,
+    this.hintText,
+    this.controller,
+    this.prefixIcon,
+    this.keyboardType,
+    this.labelText,
+    this.suffixIcon,
+    this.validator,
+    this.focus,
+    this.nextFocus,
+  });
 
   @override
   State<CustomTextField> createState() => _CustomTextFieldState();
@@ -35,12 +40,22 @@ class _CustomTextFieldState extends State<CustomTextField> {
           Text(
             widget.labelText ?? "",
             style: TextStyle(
-                fontSize: 16.sp, fontWeight: FontWeight.w600, color: kWhite),
+                fontSize: 16.sp,
+                fontWeight: FontWeight.w600,
+                color: AppColors.kWhite),
           ),
           10.verticalSpace,
           TextFormField(
+            focusNode: widget.focus,
+            onFieldSubmitted: (value) {
+              if (widget.focus != null && widget.nextFocus != null) {
+                FocusScope.of(context).requestFocus(widget.nextFocus);
+              } else if (widget.focus != null && widget.nextFocus == null) {
+                FocusScope.of(context).unfocus();
+              }
+            },
             validator: widget.validator ?? null,
-            cursorColor: kValue1,
+            cursorColor: AppColors.kValue1,
             cursorWidth: 1,
             obscureText: widget.labelText == "Password" ||
                     widget.labelText == "New Password" ||
@@ -50,7 +65,7 @@ class _CustomTextFieldState extends State<CustomTextField> {
             controller: widget.controller ?? null,
             style: TextStyle(
                 fontSize: 16.sp,
-                color: kBlack,
+                color: AppColors.kBlack,
                 fontWeight: FontWeight.w500,
                 decoration: TextDecoration.none),
             keyboardType: widget.keyboardType ?? TextInputType.text,
@@ -60,16 +75,16 @@ class _CustomTextFieldState extends State<CustomTextField> {
                 hintText: widget.hintText ?? '',
                 hintStyle: TextStyle(
                   fontSize: 16.sp,
-                  color: kBlack80,
+                  color: AppColors.kBlack80,
                   fontWeight: FontWeight.w500,
                   decoration: TextDecoration.none,
                 ),
                 prefixIconColor: Colors.white,
                 // suffixIconColor: Color(0xffBCC5D4),
                 filled: true,
-                fillColor: kWhite,
+                fillColor: AppColors.kWhite,
                 focusedBorder: OutlineInputBorder(
-                  borderSide: BorderSide(width: 2, color: kValue1),
+                  borderSide: BorderSide(width: 2, color: AppColors.kValue1),
                   borderRadius: BorderRadius.circular(10.r),
                 ),
                 border: OutlineInputBorder(
@@ -93,12 +108,12 @@ class _CustomTextFieldState extends State<CustomTextField> {
                         icon: _obsecureText
                             ? Icon(
                                 Icons.visibility_off,
-                                color: kBlack80,
+                                color: AppColors.kBlack80,
                                 size: 20,
                               )
                             : Icon(
                                 Icons.visibility,
-                                color: kBlack80,
+                                color: AppColors.kBlack80,
                                 size: 20,
                               ))
                     : null),

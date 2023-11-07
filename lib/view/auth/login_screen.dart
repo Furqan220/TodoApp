@@ -1,4 +1,4 @@
-import 'package:todo_app/export_all.dart';
+import 'package:todo_app/res/export_all.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -9,6 +9,11 @@ class LoginScreen extends StatefulWidget {
 
 class _LoginScreenState extends State<LoginScreen> {
   final TextEditingController emailController = TextEditingController();
+  final TextEditingController passController = TextEditingController();
+
+  final FocusNode emailFocus = FocusNode();
+  final FocusNode passwordFocus = FocusNode();
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -16,7 +21,11 @@ class _LoginScreenState extends State<LoginScreen> {
           gradient: LinearGradient(
               begin: Alignment.topLeft,
               end: Alignment.bottomRight,
-              colors: [Color(0xff0f1e4f), kprimary, kValue1])),
+              colors: [
+            Color(0xff0f1e4f),
+            AppColors.kprimary,
+            AppColors.kValue1
+          ])),
       child: Scaffold(
         backgroundColor: Colors.transparent,
         body: SafeArea(
@@ -26,7 +35,7 @@ class _LoginScreenState extends State<LoginScreen> {
               0.3.sh.verticalSpace,
               Text("Todo App",
                   style: TextStyle(
-                      color: kWhite,
+                      color: AppColors.kWhite,
                       fontSize: 45.sp,
                       height: 1.5,
                       fontWeight: FontWeight.bold)),
@@ -34,14 +43,20 @@ class _LoginScreenState extends State<LoginScreen> {
               CustomTextField(
                   labelText: "Email",
                   hintText: "Enter your email",
+                  focus: emailFocus,
+                  nextFocus: passwordFocus,
                   controller: emailController),
               0.021.sh.verticalSpace,
               CustomTextField(
                   labelText: "Password",
                   hintText: "Enter your password",
-                  controller: emailController),
+                  focus: passwordFocus,
+                  controller: passController),
               0.032.sh.verticalSpace,
-              CustomButton(buttonText: "Login"),
+              CustomButton(
+                buttonText: "Login",
+                buttonTextColor: AppColors.kWhite,
+              ),
               0.25.sh.verticalSpace,
               GestureDetector(
                 onTap: () => Get.to(() => SignUpScreen()),
@@ -53,7 +68,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       style: TextStyle(
                           fontSize: 16.sp,
                           fontWeight: FontWeight.w600,
-                          color: kWhite),
+                          color: AppColors.kWhite),
                     ),
                     6.w.horizontalSpace,
                     Text(
@@ -62,7 +77,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           decoration: TextDecoration.underline,
                           fontSize: 16.sp,
                           fontWeight: FontWeight.w600,
-                          color: kprimary),
+                          color: AppColors.kprimary),
                     ),
                   ],
                 ),

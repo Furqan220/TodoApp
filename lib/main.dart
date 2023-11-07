@@ -1,5 +1,5 @@
 import 'package:firebase_core/firebase_core.dart';
-import 'package:todo_app/export_all.dart';
+import 'package:todo_app/res/export_all.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -19,8 +19,11 @@ class MyApp extends StatelessWidget {
         return GetMaterialApp(
           debugShowCheckedModeBanner: false,
           title: 'Flutter Demo',
-          theme: ThemeData(textTheme: GoogleFonts.josefinSansTextTheme()),
-          home: SplashScreen(),
+          theme: ThemeData(
+              colorScheme: ColorScheme.light(onPrimary: AppColors.kprimary),
+              textTheme: GoogleFonts.josefinSansTextTheme()),
+          getPages: routes,
+          initialRoute: RouteNames.splash,
         );
       },
     );
