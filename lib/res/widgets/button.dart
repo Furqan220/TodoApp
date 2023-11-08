@@ -5,30 +5,37 @@ class CustomButton extends StatelessWidget {
   final Color? buttonTextColor;
   final VoidCallback? onTap;
   final Color? bgColor;
+  final Color? fgColor;
   final LinearGradient? bgColorLinear;
+  final double? width;
+  final double? gap;
+  final double? radius;
 
-  CustomButton({
-    super.key,
-    required this.buttonText,
-    this.buttonTextColor,
-    this.onTap,
-    this.bgColor,
-    this.bgColorLinear,
-  });
+  CustomButton(
+      {super.key,
+      required this.buttonText,
+      this.buttonTextColor,
+      this.onTap,
+      this.bgColor,
+      this.fgColor,
+      this.bgColorLinear,
+      this.width,
+      this.radius,
+      this.gap});
 
   @override
   Widget build(BuildContext context) {
     return ElevatedButton(
         style: ElevatedButton.styleFrom(
-          foregroundColor: AppColors.kWhite,
-          padding:
-              EdgeInsets.symmetric(vertical: 0.015.sh, horizontal: 0.046.sw),
+          foregroundColor: fgColor ?? AppColors.kWhite,
+          padding: EdgeInsets.symmetric(
+              vertical: 0.015.sh, horizontal: gap ?? 0.046.sw),
           shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(10.r),
+              borderRadius: BorderRadius.circular(radius ?? 10.r),
               side: BorderSide(color: AppColors.kWhite, width: 1)),
           backgroundColor: bgColor ?? AppColors.kprimary,
           elevation: 0.0,
-          fixedSize: Size(0.860.sw, 0.06.sh),
+          fixedSize: Size(width ?? 0.860.sw, 0.06.sh),
         ),
         onPressed: onTap ?? () {},
         child: Text(

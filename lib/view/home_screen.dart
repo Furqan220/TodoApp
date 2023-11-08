@@ -3,12 +3,26 @@ import 'dart:math';
 import 'package:todo_app/res/export_all.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 
-class HomeScreen extends StatelessWidget {
+class HomeScreen extends StatefulWidget {
   HomeScreen({super.key});
 
-  final TasksController task = Get.put(TasksController());
+  @override
+  State<HomeScreen> createState() => _HomeScreenState();
+}
+
+class _HomeScreenState extends State<HomeScreen> {
+  final TodoController todosController = Get.put(TodoController());
 
   RxDouble value = 0.0.obs;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    todosController.getTodos =
+        todosController.getAllTodos(todosController.allTodos, context);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Obx(
@@ -102,7 +116,8 @@ class HomeScreen extends StatelessWidget {
                         ),
                       ),
                       // 0.016.sh.verticalSpace,
-                      Text("Furqan\nAhmed",
+                      Text(User.data.username.replaceAll(RegExp(r' '), '\n'),
+                          // "Furqan\nAhmed",
                           style: TextStyle(
                               color: AppColors.kWhite,
                               fontSize: 45.sp,
@@ -112,8 +127,20 @@ class HomeScreen extends StatelessWidget {
                       MenuButton("All Tasks", "assets/pvc_icon.png"),
                       0.055.sh.verticalSpace,
                       MenuButton("Edit Proile", "assets/edit_icon.png"),
+
                       0.055.sh.verticalSpace,
-                      MenuButton("Rate Us", "assets/pngwing.com.png"),
+                      CustomButton(
+                        buttonText: "Logout",
+                        bgColor: AppColors.kWhite,
+                        width: .4.sw,
+                        radius: 30,
+                        fgColor: AppColors.kprimary,
+                        onTap: () async {
+                          await User().clear().then(
+                              (value) => Get.offAllNamed(RouteNames.login));
+                        },
+                      ),
+                      // MenuButton("Rate Us", "assets/pngwing.com.png"),
                       0.032.sh.verticalSpace,
                     ],
                   ),
@@ -150,73 +177,114 @@ class HomeScreen extends StatelessWidget {
                                 color: AppColors.kBlack,
                               ),
                             ),
-                            Row(
-                              children: [
-                                Icon(
-                                  Icons.search_sharp,
-                                  color: AppColors.kBlack,
-                                ),
-                                0.046.sw.horizontalSpace,
-                                CircleAvatar(
-                                  radius: 20.r,
-                                  backgroundColor: AppColors.kprimary,
-                                  backgroundImage:
-                                      AssetImage('assets/Ellipse 3.png'),
-                                )
-                              ],
+                            CircleAvatar(
+                              radius: 20.r,
+                              backgroundColor: AppColors.kprimary,
+                              backgroundImage:
+                                  AssetImage('assets/Ellipse 3.png'),
                             )
                           ],
                         ),
                       ),
-                      body: ListView(
-                        padding: EdgeInsets.symmetric(horizontal: 0.055.sw),
-                        children: [
-                          0.032.sh.verticalSpace,
-                          Text("Whats'up Furqan",
-                              style: TextStyle(
-                                  color: AppColors.kBlack,
-                                  fontSize: 35.sp,
-                                  fontWeight: FontWeight.bold)),
-                          0.021.sh.verticalSpace,
-                          Text("Categories".capitalize!,
-                              style: TextStyle(
-                                  color: AppColors.kGrey,
-                                  fontSize: 15.sp,
-                                  fontWeight: FontWeight.w600)),
-                          0.021.sh.verticalSpace,
-                          Container(
-                            padding: EdgeInsets.symmetric(horizontal: .032.sw),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      body: FutureBuilder<Rx<List<TodoModel>>>(
+                        future: todosController.getTodos,
+                        builder: (context,
+                            AsyncSnapshot<Rx<List<TodoModel>>> snapshot) {
+                          if (snapshot.hasData) {
+                            return ListView(
+                              padding:
+                                  EdgeInsets.symmetric(horizontal: 0.055.sw),
                               children: [
-                                countBox(),
-                                countBox(
-                                  task: "20",
-                                  category: "Personal",
-                                  valueColors: AppColors.kprimary,
+                                0.032.sh.verticalSpace,
+                                Text(
+                                    "Whats'up ${HelperFunctions.getFirstName(User.data.username)}",
+                                    style: TextStyle(
+                                        color: AppColors.kBlack,
+                                        fontSize: 35.sp,
+                                        fontWeight: FontWeight.bold)),
+                                0.021.sh.verticalSpace,
+                                Text("Categories",
+                                    style: TextStyle(
+                                        color: AppColors.kGrey,
+                                        fontSize: 15.sp,
+                                        fontWeight: FontWeight.w600)),
+                                0.021.sh.verticalSpace,
+                                Container(
+                                  padding:
+                                      EdgeInsets.symmetric(horizontal: .032.sw),
+                                  child: Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      countBox(),
+                                      countBox(
+                                        task: "20",
+                                        category: "Personal",
+                                        valueColors: AppColors.kprimary,
+                                      ),
+                                    ],
+                                  ),
                                 ),
+                                0.032.sh.verticalSpace,
+                                Text("Today's Tasks",
+                                    style: TextStyle(
+                                        color: AppColors.kGrey,
+                                        fontSize: 15.sp,
+                                        fontWeight: FontWeight.w600)),
+                                0.021.sh.verticalSpace,
+                                ...List.generate(
+                                    todosController.todaysTodos.value.length,
+                                    (index) => TodoTile(todosController
+                                        .todaysTodos.value[index])),
+                                0.021.sh.verticalSpace,
+                                Text("other than Today's Tasks",
+                                    style: TextStyle(
+                                        color: AppColors.kGrey,
+                                        fontSize: 15.sp,
+                                        fontWeight: FontWeight.w600)),
+                                0.021.sh.verticalSpace,
+                                ...List.generate(
+                                    todosController.olderTodos.value.length,
+                                    (index) => TodoTile(todosController
+                                        .olderTodos.value[index]))
                               ],
-                            ),
-                          ),
-                          0.032.sh.verticalSpace,
-                          Text("Today's Tasks",
-                              style: TextStyle(
-                                  color: AppColors.kGrey,
-                                  fontSize: 15.sp,
-                                  fontWeight: FontWeight.w600)),
-                          0.021.sh.verticalSpace,
-                          ...List.generate(
-                              task.todaysTask.length,
-                              (index) =>
-                                  TaskTile(task.todaysTask[index].toString()))
-                        ],
+                            );
+                          } else if (snapshot.connectionState ==
+                              ConnectionState.waiting) {
+                            return Center(child: Utils.spinkit);
+                          } else if (snapshot.hasError) {
+                            return Center(
+                                child: Text("Error: ${snapshot.error}"));
+                          } else {
+                            return Container();
+                          }
+                        },
                       ),
-                      floatingActionButton: FloatingActionButton(
-                        onPressed: () {},
-                        backgroundColor: AppColors.kprimary,
-                        child: Icon(
-                          Icons.add,
-                          size: 30.sp,
+                      floatingActionButton: Container(
+                        decoration:
+                            BoxDecoration(shape: BoxShape.circle, boxShadow: [
+                          BoxShadow(
+                              color: AppColors.kprimary.withOpacity(0.2),
+                              blurRadius: 8,
+                              spreadRadius: 1,
+                              offset: Offset(4, 4)),
+                          BoxShadow(
+                              color: AppColors.kprimary.withOpacity(0.2),
+                              blurRadius: 8,
+                              spreadRadius: 1,
+                              offset: Offset(-4, -4))
+                        ]),
+                        child: FloatingActionButton(
+                          elevation: 0.0,
+                          onPressed: () {
+                            G.Log(todosController.todaysTodos.value.length);
+                          },
+                          backgroundColor: AppColors.kprimary,
+                          child: Icon(
+                            Icons.add,
+                            size: 30.sp,
+                            color: AppColors.kWhite,
+                          ),
                         ),
                       ),
                     ),
@@ -325,7 +393,7 @@ class HomeScreen extends StatelessWidget {
     );
   }
 
-  Widget TaskTile(String TaskName) {
+  Widget TodoTile(TodoModel todo) {
     RxBool selected = true.obs;
     // if (value.value != 0.0) {
     //   return Container(
@@ -390,10 +458,16 @@ class HomeScreen extends StatelessWidget {
                   width: 25.w,
                   decoration: BoxDecoration(
                       color: selected.value
-                          ? AppColors.kprimary
+                          ? (todo.category == "personal"
+                              ? AppColors.kprimary
+                              : AppColors.kValue1)
                           : AppColors.kWhite,
                       shape: BoxShape.circle,
-                      border: Border.all(color: AppColors.kprimary, width: 2)),
+                      border: Border.all(
+                          color: (todo.category == "personal"
+                              ? AppColors.kprimary
+                              : AppColors.kValue1),
+                          width: 2)),
                   child: selected.value
                       ? Icon(
                           Icons.check,
@@ -404,7 +478,7 @@ class HomeScreen extends StatelessWidget {
                 ),
               ),
               0.046.sw.horizontalSpace,
-              Text(TaskName,
+              Text(todo.title,
                   style: TextStyle(
                       color: AppColors.kBlack,
                       fontSize: 22.sp,

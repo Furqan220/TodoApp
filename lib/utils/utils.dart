@@ -18,7 +18,7 @@ class Utils {
         message: message,
         margin: EdgeInsets.symmetric(horizontal: 0.048.sw, vertical: 0.021.sh),
         snackPosition: SnackPosition.TOP,
-        duration: const Duration(seconds: 1),
+        duration: const Duration(seconds: 2),
         borderRadius: 15.r,
         backgroundColor: AppColors.kValue1);
   }
@@ -29,7 +29,7 @@ class Utils {
         message: message,
         margin: EdgeInsets.symmetric(horizontal: 0.048.sw, vertical: 0.021.sh),
         snackPosition: SnackPosition.TOP,
-        duration: const Duration(seconds: 1),
+        duration: const Duration(seconds: 2),
         borderRadius: 15.r,
         backgroundColor: Colors.red);
   }

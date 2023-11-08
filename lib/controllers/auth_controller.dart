@@ -10,35 +10,33 @@ class AuthController extends GetxController {
 
   final authRepo = AuthRepository();
 
-  //  Future<void> saveUser(dynamic user)async{
-  //     await User(map: user).save();
-  //     await User().init();
-  // }
+  Future<void> saveUser(dynamic user) async {
+    await User(map: user).save();
+    await User().init();
+  }
 
-  // Future<void> loginApi(dynamic data,BuildContext context,{isRemember = false}) async{
+  Future<void> loginApi(dynamic data, BuildContext context) async {
+    G.Log(data);
+    Utils.loader(context);
+    await authRepo.loginApi(data).then((value) {
+      G.Log(value);
 
-  //     G.Log(data);
-  //   Utils.loader(context);
-  //  await  authRepo.loginApi(data).then((value){
-  //     G.Log(value);
-
-  //     saveUser(value["data"]);
-  //     if (isRemember) {
-  //       RememberUser(map: data).save();
-  //     } else {
-
-  //      const RememberUser().clear();
-  //     }
-  //     Get.back();
-  //     Navigator.pushNamedAndRemoveUntil(context, RoutesName.mainHome, (route) => false);
-  //     Utils.successBar(context: context, message: value["message"] as String? ?? AppString.loginSuccess);
-
-  //   }).onError((error, stackTrace){
-  //     Get.back();
-  //     Utils.errorBar(context: context, message: error.toString());
-  //   });
-
-  // }
+      if (value["status"]) {
+        saveUser(value["data"]);
+        Get.back();
+        Get.offAllNamed(RouteNames.home);
+        Utils.successBar(
+            context: context,
+            message: value["success"] as String? ?? "Login Successfully");
+      } else {
+        Get.back();
+        Utils.errorBar(context: context, message: value["error"].toString());
+      }
+    }).onError((error, stackTrace) {
+      Get.back();
+      Utils.errorBar(context: context, message: error.toString());
+    });
+  }
 
   Future<void> signUpApi(dynamic data, BuildContext context) async {
     G.Log(data);

@@ -1,4 +1,3 @@
-import 'package:todo_app/controllers/auth_controller.dart';
 import 'package:todo_app/res/export_all.dart';
 
 class SignUpScreen extends StatefulWidget {
@@ -11,7 +10,9 @@ class SignUpScreen extends StatefulWidget {
 class _SignUpScreenState extends State<SignUpScreen> {
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
+  final TextEditingController userNameController = TextEditingController();
   final FocusNode emailFocus = FocusNode();
+  final FocusNode userNameFocus = FocusNode();
   final FocusNode passwordFocus = FocusNode();
 
   final form = GlobalKey<FormState>();
@@ -47,7 +48,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
             child: ListView(
               padding: EdgeInsets.symmetric(horizontal: 0.069.sw),
               children: [
-                0.3.sh.verticalSpace,
+                0.2.sh.verticalSpace,
                 Text("Todo App",
                     style: TextStyle(
                         color: AppColors.kWhite,
@@ -60,10 +61,23 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   hintText: "Enter your email",
                   controller: emailController,
                   focus: emailFocus,
-                  nextFocus: passwordFocus,
+                  nextFocus: userNameFocus,
                   validator: (text) {
                     if (emailController.text.isEmpty) {
                       return "Please enter your email";
+                    }
+                  },
+                ),
+                0.021.sh.verticalSpace,
+                CustomTextField(
+                  labelText: "User Name",
+                  hintText: "Enter your name",
+                  controller: userNameController,
+                  focus: userNameFocus,
+                  nextFocus: passwordFocus,
+                  validator: (text) {
+                    if (userNameController.text.isEmpty) {
+                      return "Please enter your user name";
                     }
                   },
                 ),
@@ -88,13 +102,14 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       final dynamic data = {
                         'email': emailController.text.trim(),
                         'password': passwordController.text.trim(),
+                        'username': userNameController.text.trim(),
                       };
 
                       controller.signUpApi(data, context);
                     }
                   },
                 ),
-                0.25.sh.verticalSpace,
+                0.15.sh.verticalSpace,
                 GestureDetector(
                   onTap: () => Get.offNamed(RouteNames.login),
                   child: Row(

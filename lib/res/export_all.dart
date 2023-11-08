@@ -1,5 +1,5 @@
 export 'package:todo_app/res/colors.dart';
-export 'package:todo_app/controllers/tasks_controller.dart';
+export 'package:todo_app/controllers/todo_controller.dart';
 
 // widgets
 export 'package:todo_app/res/widgets/text_fields.dart';
@@ -39,6 +39,7 @@ export 'package:todo_app/res/export_all.dart';
 
 // repository
 export 'package:todo_app/repository/auth_repo.dart';
+export 'package:todo_app/repository/todo_repo.dart';
 
 //services
 export 'package:todo_app/services/local_storage.dart';
@@ -46,3 +47,7 @@ export 'package:todo_app/services/helper_functions.dart';
 
 // models
 export 'package:todo_app/model/user_model.dart';
+export 'package:todo_app/model/todo_model.dart';
+
+// controllers
+export 'package:todo_app/controllers/auth_controller.dart';
