@@ -20,7 +20,7 @@ class MyApp extends StatelessWidget {
           debugShowCheckedModeBanner: false,
           title: 'Flutter Demo',
           theme: ThemeData(
-              colorScheme: ColorScheme.light(onPrimary: AppColors.kprimary),
+              colorScheme: ColorScheme.light(primary: AppColors.kprimary),
               textTheme: GoogleFonts.josefinSansTextTheme()),
           getPages: routes,
           initialRoute: RouteNames.splash,

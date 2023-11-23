@@ -4,6 +4,7 @@ export 'package:todo_app/controllers/todo_controller.dart';
 // widgets
 export 'package:todo_app/res/widgets/text_fields.dart';
 export 'package:todo_app/res/widgets/button.dart';
+export 'package:todo_app/res/widgets/dialog.dart';
 
 // Screens
 export 'package:todo_app/view/auth/splash_screen.dart';
@@ -13,6 +14,7 @@ export 'package:todo_app/view/home_screen.dart';
 
 // Packages
 export 'package:flutter/material.dart';
+export 'package:flutter/gestures.dart';
 export 'package:get/get.dart';
 export 'package:flutter_screenutil/flutter_screenutil.dart';
 export 'package:google_fonts/google_fonts.dart';
@@ -48,6 +50,7 @@ export 'package:todo_app/services/helper_functions.dart';
 // models
 export 'package:todo_app/model/user_model.dart';
 export 'package:todo_app/model/todo_model.dart';
+export 'package:todo_app/model/todo_progress_model.dart';
 
 // controllers
 export 'package:todo_app/controllers/auth_controller.dart';

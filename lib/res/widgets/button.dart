@@ -6,8 +6,10 @@ class CustomButton extends StatelessWidget {
   final VoidCallback? onTap;
   final Color? bgColor;
   final Color? fgColor;
+  final Color? bdColor;
   final LinearGradient? bgColorLinear;
   final double? width;
+  final double? height;
   final double? gap;
   final double? radius;
 
@@ -17,9 +19,11 @@ class CustomButton extends StatelessWidget {
       this.buttonTextColor,
       this.onTap,
       this.bgColor,
+      this.bdColor,
       this.fgColor,
       this.bgColorLinear,
       this.width,
+      this.height,
       this.radius,
       this.gap});
 
@@ -32,10 +36,10 @@ class CustomButton extends StatelessWidget {
               vertical: 0.015.sh, horizontal: gap ?? 0.046.sw),
           shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(radius ?? 10.r),
-              side: BorderSide(color: AppColors.kWhite, width: 1)),
+              side: BorderSide(color: bdColor ?? AppColors.kWhite, width: 1)),
           backgroundColor: bgColor ?? AppColors.kprimary,
           elevation: 0.0,
-          fixedSize: Size(width ?? 0.860.sw, 0.06.sh),
+          fixedSize: Size(width ?? 0.860.sw,height ?? 0.06.sh),
         ),
         onPressed: onTap ?? () {},
         child: Text(

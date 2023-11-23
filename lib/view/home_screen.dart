@@ -1,5 +1,6 @@
 import 'dart:math';
 
+import 'package:flutter/gestures.dart';
 import 'package:todo_app/res/export_all.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 
@@ -191,64 +192,100 @@ class _HomeScreenState extends State<HomeScreen> {
                         builder: (context,
                             AsyncSnapshot<Rx<List<TodoModel>>> snapshot) {
                           if (snapshot.hasData) {
-                            return ListView(
-                              padding:
-                                  EdgeInsets.symmetric(horizontal: 0.055.sw),
-                              children: [
-                                0.032.sh.verticalSpace,
-                                Text(
-                                    "Whats'up ${HelperFunctions.getFirstName(User.data.username)}",
-                                    style: TextStyle(
-                                        color: AppColors.kBlack,
-                                        fontSize: 35.sp,
-                                        fontWeight: FontWeight.bold)),
-                                0.021.sh.verticalSpace,
-                                Text("Categories",
-                                    style: TextStyle(
-                                        color: AppColors.kGrey,
-                                        fontSize: 15.sp,
-                                        fontWeight: FontWeight.w600)),
-                                0.021.sh.verticalSpace,
-                                Container(
-                                  padding:
-                                      EdgeInsets.symmetric(horizontal: .032.sw),
-                                  child: Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
+                            return GetBuilder<TodoController>(
+                                id: "todoList",
+                                builder: (controller) {
+                                  return ListView(
+                                    padding: EdgeInsets.symmetric(
+                                        horizontal: 0.055.sw),
                                     children: [
-                                      countBox(),
-                                      countBox(
-                                        task: "20",
-                                        category: "Personal",
-                                        valueColors: AppColors.kprimary,
-                                      ),
+                                      0.032.sh.verticalSpace,
+                                      Text(
+                                          "Whats'up ${HelperFunctions.getFirstName(User.data.username)}",
+                                          style: TextStyle(
+                                              color: AppColors.kBlack,
+                                              fontSize: 35.sp,
+                                              fontWeight: FontWeight.bold)),
+                                      0.021.sh.verticalSpace,
+                                      Text("Categories",
+                                          style: TextStyle(
+                                              color: AppColors.kGrey,
+                                              fontSize: 15.sp,
+                                              fontWeight: FontWeight.w600)),
+                                      0.021.sh.verticalSpace,
+                                      Container(
+                                          padding: EdgeInsets.symmetric(
+                                              horizontal: .032.sw),
+                                          child: FutureBuilder<
+                                              Rx<List<ProgressModel>>>(
+                                            future: controller.progress,
+                                            builder: (context, snapshot) {
+                                              if (snapshot.hasData) {
+                                                return Row(
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment
+                                                            .spaceBetween,
+                                                    children: List.generate(
+                                                        snapshot
+                                                            .data!.value.length,
+                                                        (index) => countBox(
+                                                            snapshot.data!
+                                                                    .value[
+                                                                index])));
+                                              } else if (snapshot
+                                                      .connectionState ==
+                                                  ConnectionState.waiting) {
+                                                return Center(
+                                                    child: Utils.spinkit);
+                                              } else if (snapshot.hasError) {
+                                                return Center(
+                                                    child: Text(
+                                                        "Error: ${snapshot.error}"));
+                                              } else {
+                                                return Container();
+                                              }
+                                            },
+                                          )
+                                          /*    ],
+                                        ),*/
+                                          ),
+                                      0.032.sh.verticalSpace,
+                                      Text(
+                                          controller.todaysTodos.value.length ==
+                                                  0
+                                              ? "No Today's Tasks"
+                                              : "Today's Tasks",
+                                          style: TextStyle(
+                                              color: AppColors.kGrey,
+                                              fontSize: 15.sp,
+                                              fontWeight: FontWeight.w600)),
+                                      0.021.sh.verticalSpace,
+                                      ...List.generate(
+                                          todosController
+                                              .todaysTodos.value.length,
+                                          (index) => TodoTile(
+                                              todosController
+                                                  .todaysTodos.value[index],
+                                              context)),
+                                      0.021.sh.verticalSpace,
+                                      if (controller.olderTodos.value.length >
+                                          0)
+                                        Text("other than Today's Tasks",
+                                            style: TextStyle(
+                                                color: AppColors.kGrey,
+                                                fontSize: 15.sp,
+                                                fontWeight: FontWeight.w600)),
+                                      0.021.sh.verticalSpace,
+                                      ...List.generate(
+                                          todosController
+                                              .olderTodos.value.length,
+                                          (index) => TodoTile(
+                                              todosController
+                                                  .olderTodos.value[index],
+                                              context))
                                     ],
-                                  ),
-                                ),
-                                0.032.sh.verticalSpace,
-                                Text("Today's Tasks",
-                                    style: TextStyle(
-                                        color: AppColors.kGrey,
-                                        fontSize: 15.sp,
-                                        fontWeight: FontWeight.w600)),
-                                0.021.sh.verticalSpace,
-                                ...List.generate(
-                                    todosController.todaysTodos.value.length,
-                                    (index) => TodoTile(todosController
-                                        .todaysTodos.value[index])),
-                                0.021.sh.verticalSpace,
-                                Text("other than Today's Tasks",
-                                    style: TextStyle(
-                                        color: AppColors.kGrey,
-                                        fontSize: 15.sp,
-                                        fontWeight: FontWeight.w600)),
-                                0.021.sh.verticalSpace,
-                                ...List.generate(
-                                    todosController.olderTodos.value.length,
-                                    (index) => TodoTile(todosController
-                                        .olderTodos.value[index]))
-                              ],
-                            );
+                                  );
+                                });
                           } else if (snapshot.connectionState ==
                               ConnectionState.waiting) {
                             return Center(child: Utils.spinkit);
@@ -277,7 +314,8 @@ class _HomeScreenState extends State<HomeScreen> {
                         child: FloatingActionButton(
                           elevation: 0.0,
                           onPressed: () {
-                            G.Log(todosController.todaysTodos.value.length);
+                            CustomDialog.scaleDialog(context);
+                            // G.Log(todosController.todaysTodos.value.length);
                           },
                           backgroundColor: AppColors.kprimary,
                           child: Icon(
@@ -296,49 +334,8 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  Widget searchField() {
+  Widget countBox(ProgressModel progress) {
     return Container(
-      decoration: BoxDecoration(
-          color: AppColors.kWhite,
-          borderRadius: BorderRadius.circular(20.r),
-          boxShadow: [
-            BoxShadow(color: Colors.grey, blurRadius: 15, offset: Offset(0, 5))
-          ]),
-      child: TextFormField(
-        decoration: InputDecoration(
-          contentPadding: EdgeInsets.symmetric(horizontal: 0.023.sw),
-          hintText: 'Search tasks ...',
-          hintStyle: TextStyle(
-            fontSize: 13.sp,
-            color: AppColors.kGrey,
-          ),
-          border: InputBorder.none,
-          focusedBorder: InputBorder.none,
-          enabledBorder: InputBorder.none,
-          disabledBorder: InputBorder.none,
-        ),
-      ),
-    );
-  }
-
-  Widget countBox(
-      {String task = '40',
-      category = "Business",
-      Color valueColors = AppColors.kValue1}) {
-    return Container(
-      // width: 0.40.sw,
-      // height: 0.40.sw,
-      // padding: EdgeInsets.symmetric(horizontal: 0.046.sw, vertical: 0.016.sh),
-      // decoration: BoxDecoration(
-      //     shape: BoxShape.circle,
-      //     color: AppColors.kWhite,
-      //     // borderRadius: BorderRadius.circular(20.r),
-      //     boxShadow: [
-      //       BoxShadow(
-      //           color: Color.fromARGB(66, 19, 19, 75),
-      //           blurRadius: 15,
-      //           offset: Offset(0, 5))
-      //     ]),
       child: CircularPercentIndicator(
         radius: 70,
         lineWidth: 10.0,
@@ -348,142 +345,99 @@ class _HomeScreenState extends State<HomeScreen> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             new Text(
-              "50.0%",
+              HelperFunctions.getPercentageString(progress.percentage),
+              // "${progress.percentage}%",
               style: new TextStyle(fontWeight: FontWeight.bold, fontSize: 20.0),
             ),
             Text(
-              "$category",
+              "${progress.category}",
               style: new TextStyle(fontWeight: FontWeight.bold, fontSize: 18.0),
             ),
           ],
         ),
-        // footer: new Text(
-        //   "Sales this week",
-        //   style: new TextStyle(fontWeight: FontWeight.bold, fontSize: 17.0),
-        // ),
         circularStrokeCap: CircularStrokeCap.round,
-        progressColor: valueColors,
+        progressColor: progress.category == "personal"
+            ? AppColors.kprimary
+            : AppColors.kValue1,
       ),
-
-      /*    Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-            "$task tasks",
-            style: TextStyle(
-                fontSize: 16.sp, color: AppColors.kGrey, fontWeight: FontWeight.w500),
-          ),
-          0.021.sh.verticalSpace,
-          Text(
-            "$category",
-            style: TextStyle(
-                fontSize: 20.sp, color: AppColors.kBlack, fontWeight: FontWeight.bold),
-          ),
-          // 0.032.sh.verticalSpace,
-          // LinearProgressIndicator(
-          //   value: 0.7,
-          //   backgroundColor: AppColors.kGrey,
-          //   color: valueColors,
-          // ),
-          // 0.021.sh.verticalSpace,
-        ],
-      ),
-   
-   */
     );
   }
 
-  Widget TodoTile(TodoModel todo) {
-    RxBool selected = true.obs;
-    // if (value.value != 0.0) {
-    //   return Container(
-    //     // color: Colors.green,
-    //     padding: EdgeInsets.symmetric(horizontal: 0.046.sw),
-    //     margin: EdgeInsets.symmetric(vertical: 0.053.sw),
-    //     child: Row(
-    //       crossAxisAlignment: CrossAxisAlignment.center,
-    //       children: [
-    //         Container(
-    //           height: 25.h,
-    //           width: 25.w,
-    //           decoration: BoxDecoration(
-    //               shape: BoxShape.circle,
-    //               border: Border.all(color: AppColors.kprimary, width: 2)),
-    //         ),
-    //         0.046.sw.horizontalSpace,
-    //         Text(TaskName,
-    //             style: TextStyle(
-    //                 color: AppColors.kBlack,
-    //                 fontSize: 22.sp,
-    //                 fontWeight: FontWeight.w500)),
-    //       ],
-    //     ),
-    //   );
-    // } else {
-    return Slidable(
-      direction: Axis.horizontal,
-      endActionPane: ActionPane(motion: ScrollMotion(), children: [
-        IconButton(
-          onPressed: () {},
-          icon: Icon(
-            Icons.edit,
-            color: AppColors.kprimary,
-            size: 30.sp,
+  Widget TodoTile(TodoModel todo, BuildContext context) {
+    RxBool selected = todo.isCompleted.obs;
+    return IgnorePointer(
+      ignoring: value.value == 1,
+      child: Slidable(
+        direction: Axis.horizontal,
+        endActionPane: ActionPane(motion: ScrollMotion(), children: [
+          0.023.sw.horizontalSpace,
+          IconButton(
+            onPressed: () {
+              todosController.deleteTodo(todo.id, context);
+            },
+            icon: Icon(
+              Icons.delete,
+              color: Colors.red,
+              size: 30.sp,
+            ),
           ),
-        ),
-        0.023.sw.horizontalSpace,
-        IconButton(
-          onPressed: () {},
-          icon: Icon(
-            Icons.delete,
-            color: Colors.red,
-            size: 30.sp,
-          ),
-        ),
-      ]),
-      child: Obx(
-        () => Container(
-          // color: Colors.green,
-          padding: EdgeInsets.symmetric(horizontal: 0.046.sw),
-          margin: EdgeInsets.symmetric(vertical: 0.053.sw),
-          child: Row(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              InkWell(
-                onTap: () {
-                  selected.value = !selected.value;
-                },
-                child: Container(
-                  height: 25.h,
-                  width: 25.w,
-                  decoration: BoxDecoration(
-                      color: selected.value
-                          ? (todo.category == "personal"
-                              ? AppColors.kprimary
-                              : AppColors.kValue1)
-                          : AppColors.kWhite,
-                      shape: BoxShape.circle,
-                      border: Border.all(
-                          color: (todo.category == "personal"
-                              ? AppColors.kprimary
-                              : AppColors.kValue1),
-                          width: 2)),
-                  child: selected.value
-                      ? Icon(
-                          Icons.check,
-                          size: 15,
-                          color: AppColors.kWhite,
-                        )
-                      : null,
+        ]),
+        child: Obx(
+          () => Container(
+            // color: Colors.green,
+            padding: EdgeInsets.symmetric(horizontal: 0.046.sw),
+            margin: EdgeInsets.symmetric(vertical: 0.053.sw),
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                InkWell(
+                  onTap: () {
+                    todosController.updateTodo(
+                        todo.id, {"isCompleted": !selected.value}, context);
+                    // selected.value = !selected.value;
+                  },
+                  child: Container(
+                    height: 25.h,
+                    width: 25.w,
+                    decoration: BoxDecoration(
+                        color: selected.value
+                            ? (todo.category == "personal"
+                                ? AppColors.kprimary
+                                : AppColors.kValue1)
+                            : AppColors.kWhite,
+                        shape: BoxShape.circle,
+                        border: Border.all(
+                            color: (todo.category == "personal"
+                                ? AppColors.kprimary
+                                : AppColors.kValue1),
+                            width: 2)),
+                    child: selected.value
+                        ? Icon(
+                            Icons.check,
+                            size: 15,
+                            color: AppColors.kWhite,
+                          )
+                        : null,
+                  ),
                 ),
-              ),
-              0.046.sw.horizontalSpace,
-              Text(todo.title,
-                  style: TextStyle(
-                      color: AppColors.kBlack,
-                      fontSize: 22.sp,
-                      fontWeight: FontWeight.w500)),
-            ],
+                0.046.sw.horizontalSpace,
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(todo.title,
+                        style: TextStyle(
+                            color: AppColors.kBlack,
+                            fontSize: 20.sp,
+                            fontWeight: FontWeight.w500)),
+                    Text(todo.desc,
+                        style: TextStyle(
+                            color: AppColors.kBlack80,
+                            fontSize: 15.sp,
+                            fontWeight: FontWeight.w400)),
+                  ],
+                ),
+              ],
+            ),
           ),
         ),
       ),

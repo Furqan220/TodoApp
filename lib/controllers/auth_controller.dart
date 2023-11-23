@@ -56,4 +56,6 @@ class AuthController extends GetxController {
       Utils.errorBar(context: context, message: error.toString());
     });
   }
+
+ 
 }

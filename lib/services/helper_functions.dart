@@ -27,12 +27,18 @@ class HelperFunctions {
     return name;
   }
 
+  static String getPercentageString(String val) {
+    double toDouble = double.parse(val);
+    int toInt = toDouble.toInt();
+    return "$toInt %";
+  }
+
   static bool isDifferenceLessThan24Hours(
       String dateTimeString1, String dateTimeString2) {
     final dateFormat = DateFormat("yyyy-MM-dd");
 
-    G.Log("Expiry Date    $dateTimeString1");
-    G.Log("current Date    $dateTimeString2");
+    // G.Log("Expiry Date    $dateTimeString1");
+    // G.Log("current Date    $dateTimeString2");
 
     DateTime dateTime1;
     DateTime dateTime2;

@@ -1,4 +1,3 @@
-import 'package:todo_app/res/export_all.dart';
 
 class TodoModel {
   final Map<String, dynamic> map;
