@@ -1,10 +1,19 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:todo_app/res/export_all.dart';
+import 'package:todo_app/services/firebase_api.dart';
 
 Future<void> main() async {
-  WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp();
-  runApp(MyApp());
+  try {
+    WidgetsFlutterBinding.ensureInitialized();
+    await Firebase.initializeApp();
+    await FirebaseApi().initNotification();
+
+    // G.fcmToken = "";
+    // G.Log(G.fcmToken);
+    runApp(MyApp());
+  } on Exception catch (e) {
+    runApp(ErrorWidget(e));
+  }
 }
 
 class MyApp extends StatelessWidget {
