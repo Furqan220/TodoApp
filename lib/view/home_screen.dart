@@ -3,6 +3,7 @@ import 'dart:math';
 import 'package:flutter/gestures.dart';
 import 'package:todo_app/res/export_all.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
+import 'package:todo_app/services/notification_services.dart';
 
 class HomeScreen extends StatefulWidget {
   HomeScreen({super.key});
@@ -13,7 +14,7 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   final TodoController todosController = Get.put(TodoController());
-
+  final NotificationServices noti = NotificationServices();
   RxDouble value = 0.0.obs;
 
   @override
@@ -22,6 +23,14 @@ class _HomeScreenState extends State<HomeScreen> {
     super.initState();
     todosController.getTodos =
         todosController.getAllTodos(todosController.allTodos, context);
+
+    noti.requestNotificationPermission();
+    noti.firebaseInit();
+
+    noti.getDeviceToken().then((value) {
+      G.fcmToken = value;
+      G.Log(G.fcmToken);
+    });
   }
 
   @override

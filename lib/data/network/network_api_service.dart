@@ -92,4 +92,6 @@ class NetworkApiService extends BaseApiServices {
             "Error occured while communicating with server with status code of ${response.statusCode}");
     }
   }
+
+
 }

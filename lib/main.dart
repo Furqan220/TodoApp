@@ -1,12 +1,12 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:todo_app/res/export_all.dart';
-import 'package:todo_app/services/firebase_api.dart';
+import 'package:todo_app/services/notification_services.dart';
 
 Future<void> main() async {
   try {
     WidgetsFlutterBinding.ensureInitialized();
     await Firebase.initializeApp();
-    await FirebaseApi().initNotification();
+    // await FirebaseApi().initNotification();
 
     // G.fcmToken = "";
     // G.Log(G.fcmToken);
